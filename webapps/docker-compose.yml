@@ -1,0 +1,18 @@
+version: "3"
+services:
+
+  js-app:
+    extends:
+      file: node-apps.yml
+      service: js-app
+
+  ts-app:
+    extends:
+      file: node-apps.yml
+      service: ts-app
+
+
+networks:
+  default:
+    external: true
+    name: is-guides

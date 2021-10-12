@@ -1,0 +1,7 @@
+
+# exclude subfolders
+**/bootstrap/*/**
+**/components/*/**
+**/webapps/*/**
+
+!/**/.gitkeep

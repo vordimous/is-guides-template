@@ -1,0 +1,18 @@
+version: "3"
+services:
+
+  # components Worker
+  components:
+    extends:
+      file: components.yml
+      service: component-jars
+
+  # Node Workers
+  react-js:
+    extends:
+      file: node-installs.yml
+      service: react-js
+  react-ts:
+    extends:
+      file: node-installs.yml
+      service: react-ts
