@@ -11,3 +11,4 @@ Follow the [Setup](../README.md#setup) and [Run Identity Server](../README.md#ru
 ## Labkit Collection
 
 - [Simple Consent Management](labkits/simple-consent-management.md)
+- [User Registration Approval](user-registration-approval.md)
