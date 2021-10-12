@@ -7,6 +7,7 @@ Follow the [Setup](../README.md#setup) and [Run Identity Server](../README.md#ru
 ## Demo Collection
 
 - [SSO with OAuth demo Node SPA](demos/sso-oath-node-spa.md)
+- [Magiclink Login](demos/magiclink-login.md)
 
 ## Labkit Collection
 
