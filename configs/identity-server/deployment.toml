@@ -1,9 +1,8 @@
 # Deployment config for Identity Server deployment
 [server]
-hostname = "localhost"
+hostname = "is.localhost"
 node_ip = "127.0.0.1"
-base_path = "https://$ref{server.hostname}:${carbon.management.port}"
-disable_addressing = true
+base_path = "https://$ref{server.hostname}"
 
 [super_admin]
 username = "admin"
@@ -23,6 +22,9 @@ driver = "com.mysql.cj.jdbc.Driver"
 validationQuery = "SELECT 1"
 [realm_manager]
 data_source = "WSO2USER_DB"
+
+[transport.https.properties]
+proxyPort="443"
 
 [database.identity_db]
 type = "mysql"
@@ -60,7 +62,7 @@ app_password= "dashboard"
 
 [[datasource]]
 id = "WSO2ConsentDS"
-url = "jdbc:mysql://wso2is-mysql-db-service:3306/WSO2IS_IDENTITY_DB?autoReconnect=true&amp;useSSL=false"
+url = "jdbc:mysql://wso2is-mysql-db-service:3306/WSO2IS_CONSENT_DB?autoReconnect=true&amp;useSSL=false"
 username = "wso2carbon"
 password = "wso2carbon"
 driver = "com.mysql.cj.jdbc.Driver"
@@ -76,7 +78,7 @@ data_source="jdbc/WSO2ConsentDS"
 [cors]
 allow_generic_http_requests = true
 allow_any_origin = true
-allowed_origins = ["http://localhost"]
+allowed_origins = ["http://$ref{server.hostname}"]
 allow_subdomains = true
 supported_methods = [
     "GET",
@@ -106,12 +108,6 @@ port= 1025
 enable_start_tls= true
 enable_authentication= true
 
-[recaptcha]
-enabled = "true"
-api_url = "https://www.google.com/recaptcha/api.js"
-verify_url = "https://www.google.com/recaptcha/api/siteverify"
-site_key="6LfoXQEVAAA"
-secret_key="6LfoXQEVAAA"
 
 #Enable access for sample
 [[resource.access_control]]
@@ -124,9 +120,9 @@ http_method = "all"
 name ="EmailOTP"
 enable=true
 [authentication.authenticator.email_otp.parameters]
-EMAILOTPAuthenticationEndpointURL = "https://localhost:9443/emailotpauthenticationendpoint/emailotp.jsp"
-EmailOTPAuthenticationEndpointErrorPage = "https://localhost:9443/emailotpauthenticationendpoint/emailotpError.jsp"
-EmailAddressRequestPage = "https://localhost:9443/emailotpauthenticationendpoint/emailAddress.jsp"
+EMAILOTPAuthenticationEndpointURL = "https://$ref{server.base_path}/emailotpauthenticationendpoint/emailotp.jsp"
+EmailOTPAuthenticationEndpointErrorPage = "https://$ref{server.base_path}/emailotpauthenticationendpoint/emailotpError.jsp"
+EmailAddressRequestPage = "https://$ref{server.base_path}/emailotpauthenticationendpoint/emailAddress.jsp"
 usecase = "local"
 secondaryUserstore = "primary"
 EMAILOTPMandatory = false

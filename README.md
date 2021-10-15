@@ -32,6 +32,14 @@ The only prerequisite is a working `docker` instance and the resources in this r
       docker-compose -f bootstrap/<filename>.yml up && docker-compose -f bootstrap/<filename>.yml down
       ```
 
+### Run nginx-proxy
+
+1. Start the proxy server that will route all traffic on the subdomans on `*.localhost` to the correct location
+
+    ```shell
+    docker-compose -f proxy/docker-compose.yml up -d
+    ```
+
 ### Run Identity Server
 
 1. Make any required configuration changes to the [deployment.toml](../configs/identity-server/deployment.toml).

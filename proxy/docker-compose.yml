@@ -1,0 +1,33 @@
+version: '3'
+
+services:
+  proxy:
+    restart: always
+    image: nginxproxy/nginx-proxy
+    networks:
+      default:
+        aliases: 
+          - is.localhost
+          - mail.localhost
+          # Add any new SELF_SIGNED_HOST values here so that internal routing will point to the proxy
+
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+      - ../components/misc/certs/vhost.d:/etc/nginx/vhost.d
+      - ../components/misc/certs:/etc/nginx/certs:ro
+
+
+  proxy-companion:
+    restart: always
+    image: sebastienheyd/self-signed-proxy-companion
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ../components/misc/certs:/etc/nginx/certs:rw
+
+networks:
+  default:
+    external: true
+    name: is-guides

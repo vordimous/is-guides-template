@@ -5,7 +5,7 @@ services:
   wso2is-mysql-db-service:
     image: mysql:5.7
     ports:
-      - "3306:3306"
+      - "3306"
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_USER: wso2carbon
@@ -13,23 +13,32 @@ services:
     volumes:
       - ./configs/mysql/initdb:/docker-entrypoint-initdb.d
       - ./configs/mysql/my.cnf:/etc/mysql/my.cnf
-      # This will persist the database data in a volume on the host
-      # - mysql-datavolume:/var/lib/mysql 
+      # Uncomment this line to save any IS changes to a volume
+      - proxy-datavolume:/var/lib/mysql
 
   # Local Mailserver
   mailserver:
     image: mailhog/mailhog
+    environment:
+      VIRTUAL_HOST: mail.localhost,www.mail.localhost
+      VIRTUAL_PORT: 8025
+      SELF_SIGNED_HOST: mail.localhost
     ports:
-      - "8025:8025"
-      - "1025:1025"
+      - "8025"
+      - "1025"
 
   # Identity Server
   identity-server:
     image: docker.wso2.com/wso2is:5.11.0.0 #5.11.0.0 is the latest 5.11 version alias
     user: "root"
     ports:
-      - "9763:9763"
-      - "9443:9443"
+      - "9763"
+      - "9443"
+    environment:
+      VIRTUAL_PROTO: https
+      VIRTUAL_HOST: is.localhost,www.is.localhost
+      SELF_SIGNED_HOST: is.localhost
+      VIRTUAL_PORT: 9443
     entrypoint:
       - "sh"
       - "-c"
@@ -38,12 +47,13 @@ services:
           sh -s -- wso2is-mysql-db-service:3306 --timeout=160 -- echo "db ready";
 
           # Pre-start commands:
+          keytool -import -alias is -file $${WORKING_DIRECTORY}/wso2-artifact-volume/misc/certs/is.localhost.crt -keystore $${WSO2_SERVER_HOME}/repository/resources/security/client-truststore.jks -storepass wso2carbon -noprompt;
 
           echo "starting IS";
           $${WORKING_DIRECTORY}/docker-entrypoint.sh;
     volumes:
       - ./configs/identity-server:/home/wso2carbon/wso2-config-volume/repository/conf/
-      - ./configs/security:/home/wso2carbon/wso2-config-volume/repository/resources/security
+      - ./configs/security:/home/wso2carbon/wso2-config-volume/repository/resources/security/
       - ./components/dropins:/home/wso2carbon/wso2-artifact-volume/repository/components/dropins/
       - ./components/plugins:/home/wso2carbon/wso2-artifact-volume/repository/components/plugins/
       - ./components/misc:/home/wso2carbon/wso2-artifact-volume/misc
@@ -53,7 +63,7 @@ services:
 
 volumes:
   # Persistant mysql data
-  mysql-datavolume:
+  proxy-datavolume:
     driver: local
 
 networks:
