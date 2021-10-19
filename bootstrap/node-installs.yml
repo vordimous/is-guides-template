@@ -28,3 +28,17 @@ services:
           cd /apps/asgardeo-react-ts-app;
           rm package-lock.json;
           yarn;
+
+  # Node Worker
+  angular:
+    image: node:16
+    volumes:
+      - ../webapps/node:/apps/
+    command:
+      - "sh"
+      - "-c"
+      - |
+          wget -c https://github.com/asgardeo/asgardeo-auth-angular-sdk/releases/download/v0.2.4/asgardeo-angular-app-with-router.zip;
+          unzip -n asgardeo-angular-app-with-router.zip -d /apps/;
+          cd /apps/asgardeo-angular-app-with-router;
+          npm i --prefer-offline --no-audit --no-fund;

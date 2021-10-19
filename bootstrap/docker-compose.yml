@@ -16,3 +16,7 @@ services:
     extends:
       file: node-installs.yml
       service: react-ts
+  angular:
+    extends:
+      file: node-installs.yml
+      service: angular
