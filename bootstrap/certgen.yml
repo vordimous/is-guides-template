@@ -1,0 +1,22 @@
+version: "3"
+services:
+
+  # Hostname Cert Creation 
+  certgen:
+    image: openjdk:8
+    user: "root"
+    environment:
+      SERVER_HOST: localhost.com
+      KEYSTORE_FILENAME: wso2carbon
+      STORE_PASS: wso2carbon
+    volumes:
+      - ../configs/security:/security
+    command:
+      - "sh"
+      - "-c"
+      - |
+          cd security;
+          rm -rf *;
+
+          keytool -genkey -alias $${KEYSTORE_FILENAME} -keyalg RSA -keysize 2048 -keystore $${KEYSTORE_FILENAME}.jks -dname "CN=$${SERVER_HOST}, OU=Is,O=Wso2,L=SL,S=WS,C=LK" -storepass $${STORE_PASS} -keypass $${STORE_PASS} -ext SAN=dns:localhost,dns:identity-server,dns:$${SERVER_HOST} -ext ExtendedKeyUsage=serverAuth -validity 825
+          keytool -export -alias $${KEYSTORE_FILENAME} -keystore $${KEYSTORE_FILENAME}.jks -file pkn.pem;

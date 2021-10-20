@@ -1,6 +1,6 @@
 # Deployment config for Identity Server deployment
 [server]
-hostname = "localhost"
+hostname = "localhost.com"
 node_ip = "127.0.0.1"
 base_path = "https://$ref{server.hostname}:${carbon.management.port}"
 disable_addressing = true
@@ -46,6 +46,7 @@ validationQuery = "SELECT 1"
 [keystore.primary]
 file_name = "wso2carbon.jks"
 password = "wso2carbon"
+alias = "wso2carbon"
 
 [truststore]
 file_name="client-truststore.jks"
@@ -57,6 +58,7 @@ hash= "66cd9688a2ae068244ea01e70f0e230f5623b7fa4cdecb65070a09ec06452262"
 
 [identity.auth_framework.endpoint]
 app_password= "dashboard"
+hostname_verification_enabled = false
 
 [[datasource]]
 id = "WSO2ConsentDS"
@@ -76,7 +78,10 @@ data_source="jdbc/WSO2ConsentDS"
 [cors]
 allow_generic_http_requests = true
 allow_any_origin = true
-allowed_origins = ["http://localhost"]
+allowed_origins = [
+  "http://localhost",
+  "http://localhost.com"
+]
 allow_subdomains = true
 supported_methods = [
     "GET",

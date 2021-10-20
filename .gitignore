@@ -4,4 +4,7 @@
 **/components/*/**
 **/webapps/*/**
 
+configs/security/wso2carbon.jks
+configs/security/pkn.pem
+
 !/**/.gitkeep
