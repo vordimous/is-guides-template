@@ -14,7 +14,7 @@ services:
       - ./configs/mysql/initdb:/docker-entrypoint-initdb.d
       - ./configs/mysql/my.cnf:/etc/mysql/my.cnf
       # This will persist the database data in a volume on the host
-      # - mysql-datavolume:/var/lib/mysql 
+      - pickup-apps-datavolume:/var/lib/mysql 
 
   # Local Mailserver
   mailserver:
@@ -58,7 +58,7 @@ services:
 
 volumes:
   # Persistant mysql data
-  mysql-datavolume:
+  pickup-apps-datavolume:
     driver: local
 
 networks:

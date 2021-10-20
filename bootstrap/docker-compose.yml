@@ -7,19 +7,24 @@ services:
       file: components.yml
       service: component-jars
 
-  # Node Workers
-  react-js:
-    extends:
-      file: node-installs.yml
-      service: react-js
-  react-ts:
-    extends:
-      file: node-installs.yml
-      service: react-ts
+  # # Node Workers
+  # react-js:
+  #   extends:
+  #     file: node-installs.yml
+  #     service: react-js
+  # react-ts:
+  #   extends:
+  #     file: node-installs.yml
+  #     service: react-ts
 
   # certgen Worker
   certgen:
     extends:
       file: certgen.yml
-      service: component-jars
+      service: certgen
 
+  # Tomcat Worker
+  tomcat:
+    extends:
+      file: tomcat-wars.yml
+      service: tomcat

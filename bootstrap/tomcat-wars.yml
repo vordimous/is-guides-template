@@ -1,0 +1,14 @@
+version: "3"
+services:
+
+  # Webapp Worker
+  tomcat:
+    image: busybox:1.32
+    volumes:
+      - ../webapps/wars:/wars/
+    command:
+      - "sh"
+      - "-c"
+      - |
+          wget https://github.com/wso2/samples-is/releases/download/v4.3.0/pickup-manager.war -P /wars/;
+          wget https://github.com/wso2/samples-is/releases/download/v4.3.0/pickup-dispatch.war -P /wars/;

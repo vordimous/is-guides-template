@@ -82,6 +82,29 @@ The only prerequisite is a working `docker` instance and the resources in this r
       docker-compose -f webapps/<filename>.yml up -d
       ```
 
+#### Pickup Apps
+
+1. Update the Id and secret for the apps
+    - Pickup-Dispatch: `webapps/wars/pickup-dispatch/WEB-INF/classes/dispatch.properties`
+    - Pickup-Manager: `webapps/wars/pickup-manager/WEB-INF/classes/manager.properties`
+
+      ```toml
+      consumerKey=<App OIDC client id>
+      ...
+      consumerSecret=<App OIDC secret>
+      ...
+      ```
+
+1. *Important*: Change all `localhost` hostname values to `localhost.com` in both properties files
+
+1. Replace the `wso2carbon.jks` file in both apps with the new cert from the bootstrap step found in `configs/security/`
+
+1. Restart Tomcat
+
+    ```shell
+    docker-compose -f webapps/docker-compose.yml restart tomcat-apps
+    ```
+
 #### React Apps
 
   1. Update React `JS` app configs `webapps/node/asgardeo-react-js-app/src/config.json`
