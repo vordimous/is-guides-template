@@ -32,6 +32,19 @@ The only prerequisite is a working `docker` instance and the resources in this r
       docker-compose -f bootstrap/<filename>.yml up && docker-compose -f bootstrap/<filename>.yml down
       ```
 
+### *optional* Apple M1 ARM64 workaround
+
+1. Replace the image for the `indentity-server` service and add your subscription user:pass as environment variables
+
+    ```yaml
+      identity-server:
+        image: lahirulls/wso2is-for-m1:5.11.0-ubuntu #image built for arm64
+        environment:
+          WSO2_USER: <username> #subscription user
+          WSO2_USER_PASS: <yourpassword> #subscription pass
+        user: "root"
+    ```
+
 ### Run Identity Server
 
 1. Make any required configuration changes to the [deployment.toml](../configs/identity-server/deployment.toml).
