@@ -41,6 +41,8 @@ services:
 
           echo "starting IS";
           $${WORKING_DIRECTORY}/docker-entrypoint.sh;
+    environment:
+      - LOG4J_FORMAT_MSG_NO_LOOKUPS=true
     volumes:
       - ./configs/identity-server:/home/wso2carbon/wso2-config-volume/repository/conf/
       - ./configs/security:/home/wso2carbon/wso2-config-volume/repository/resources/security
